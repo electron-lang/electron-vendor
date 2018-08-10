@@ -76,7 +76,8 @@ gulp.task('build:iverilog', ['build:iverilog:make:install'], () => {
   console.log('build:iverilog');
 });
 
-gulp.task('build', ['build:yosys', 'build:nextpnr', 'build:iverilog'], () => {
+// trellis and nextpnr fail to build due to boost
+gulp.task('build', ['build:yosys', 'build:icestorm', 'build:iverilog'], () => {
   console.log('build');
 });
 
