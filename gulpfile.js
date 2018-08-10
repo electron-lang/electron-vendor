@@ -17,10 +17,17 @@ function getOptions(mod) {
 const yosys = getOptions('yosys');
 const nextpnr = getOptions('nextpnr');
 const icestorm = getOptions('icestorm');
-const trellis = getOptions(path.join('prjtrellis', 'libtrellis'));
+const trellis = getOptions('prjtrellis');
+const libtrellis = getOptions(path.join('prjtrellis', 'libtrellis'));
 const iverilog = getOptions('iverilog');
 
 const ICEBOX_ROOT = path.join(dist, 'share', 'icebox');
+const TRELLIS_ROOT = path.join(dist, 'share', 'trellis');
+
+const DPREFIX = '-DCMAKE_INSTALL_PREFIX=' + dist;
+const DARCH = '-DARCH=all';
+const DICEBOX_ROOT = '-DICEBOX_ROOT=' + ICEBOX_ROOT;
+const DTRELLIS_ROOT = '-DTRELLIS_ROOT=' + TRELLIS_ROOT;
 
 gulp.task('build:yosys:make', run('make', yosys));
 gulp.task('build:yosys:make:install', ['build:yosys:make'],
@@ -29,8 +36,8 @@ gulp.task('build:yosys', ['build:yosys:make:install'], () => {
   console.log('build:yosys');
 });
 
-gulp.task('build:nextpnr:cmake', ['build:icestorm'],
-          run(`cmake -DARCH=ice40 -DICEBOX_ROOT=${ICEBOX_ROOT} -DCMAKE_INSTALL_PREFIX=${dist} .`, nextpnr));
+gulp.task('build:nextpnr:cmake', ['build:icestorm', 'build:trellis'],
+          run(`cmake ${DPREFIX} ${DARCH} ${DICEBOX_ROOT} ${DTRELLIS_ROOT} .`, nextpnr));
 gulp.task('build:nextpnr:make', ['build:nextpnr:cmake'],
           run('make -j 4', nextpnr));
 gulp.task('build:nextpnr:make:install', ['build:nextpnr:make'],
@@ -46,9 +53,14 @@ gulp.task('build:icestorm', ['build:icestorm:make:install'], () => {
 });
 
 
-gulp.task('build:trellis:cmake', run('cmake .', trellis));
-gulp.task('build:trellis:make', ['build:trellis:cmake'], run('make', trellis));
-gulp.task('build:trellis', ['build:trellis:make'], () => {
+gulp.task('build:trellis:db', run('./download-latest-db.sh', trellis));
+gulp.task('build:trellis:cmake', ['build:trellis:db'],
+          run(`cmake -DCMAKE_INSTALL_PREFIX=${dist} .`, libtrellis));
+gulp.task('build:trellis:make', ['build:trellis:cmake'],
+          run('make', libtrellis));
+gulp.task('build:trellis:make:install', ['build:trellis:make'],
+          run('make install', libtrellis));
+gulp.task('build:trellis', ['build:trellis:make:install'], () => {
   console.log('build:trellis');
 });
 
