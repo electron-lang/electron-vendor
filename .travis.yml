@@ -8,8 +8,6 @@ cache:
   yarn: true
   directories:
     - node_modules
-script:
-  - yarn build
 addons:
   apt:
     packages:
@@ -21,3 +19,19 @@ addons:
     - python3.5
     - python3.5-dev
     - qt5-default
+script:
+  - yarn build
+before_deploy:
+- ARCHIVE_NAME="${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME-`uname -m`.tar"
+- tar --create --verbose --file="$ARCHIVE_NAME" --directory "$TRAVIS_BUILD_DIR/dist"
+deploy:
+  provider: releases
+  draft: false
+  prerelease: true
+  file: "$ARCHIVE_NAME"
+  skip_cleanup: true
+  on:
+    tags: true
+    node: node
+  api_key:
+    secure: iNRKJM9rX1pW8hN/EVHUJ26CtsAtdPh89SM3bsiP258sHJIuvbxPP7BNlN6WfzqpcTpEMYHPnDm+2zGGWeBSRPe5jBuD2MmRh7hHHckOmZ2kdu1phDvIOR5tJR2x3KfuHat6BvqkwHs1KzCQ+NCGGPuho4PetstnCKDgh/Ns2HFHtGjxTFoUxJrf3cZXKWmFE2QxyK4taVZz2Z9GobS29Vp5BeQbNmA2/i2wi00Nckx/vy/KNeriz1fnU68aewgwLMkvnqC734vmcC/CTD7O8jp6BryMXrwIhkA1qoUksOIDPIOj+tagGRaMyqzgOSV8LLbUF0NIGdJdflRGD2w+WLUm1kitUEH4fh6a3qKwAk1qCfqOqixTTXwL9uJW9JbnSgKIW+ZOGKX3Uaw/DyPDlym2B12Fi5XYtdjja0dRTI0IhOaQt390fRJu0XSkNW7P1it8Hx5FzBmSbnqR/xAT//ACn/7d8edLfznyzCnb0dYysA5PTyyeS+FlLwxb2Fit7mY8Vvs4QgBHiuRSyEbcm9FSXR040LKw5y8xmeeNcupW9FD461T7UCp6WnMyk53LIyEshh4u79NiLkqPwHYuXEyZjlCH/9RrMIU0/16NkmsvVDyeXX1CDAZ32LMnWobEWgOVIacG7TM+GiodbVVmT6XlpB6kARc2tNvRtTdspcw=
