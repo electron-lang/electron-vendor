@@ -1,0 +1,23 @@
+sudo: false
+language: node_js
+node_js:
+- node
+os:
+- linux
+cache:
+  yarn: true
+  directories:
+    - node_modules
+script:
+  - yarn build
+addons:
+  apt:
+    packages:
+    - gperf
+    - libboost-dev
+    - libboost-all-dev
+    - libftdi-dev
+    - libqt5opengl5
+    - python3.5
+    - python3.5-dev
+    - qt5-default
