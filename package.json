@@ -1,6 +1,6 @@
 {
   "name": "foss-fpga-toolchain",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "Multiplatform pre-built fpga toolchain.",
   "main": "index.js",
   "repository": "https://github.com/electron-lang/foss-fpga-toolchain",
@@ -10,9 +10,24 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-git-submodule": "git+https://github.com/dvc94ch/gulp-git-submodule",
-    "gulp-run-command": "^0.0.9"
+    "gulp-run-command": "^0.0.9",
+    "prebuildify-ci": "^1.0.2"
   },
   "scripts": {
-    "build": "gulp sm:update && gulp build"
+    "build": "gulp sm:update && gulp build",
+    "download": "prebuildify-ci download"
+  },
+  "files": [
+    "prebuilds"
+  ],
+  "bin": {
+    "yosys": "./prebuilds/bin/yosys",
+    "nextpnr-ice40": "./prebuilds/bin/nextpnr-ice40",
+    "icepack": "./prebuilds/bin/icepack",
+    "iceprog": "./prebuilds/bin/iceprog",
+    "icetime": "./prebuilds/bin/icetime",
+    "icepll": "./prebuilds/bin/icepll",
+    "iverilog": "./prebuilds/bin/iverilog",
+    "vvp": "./prebuilds/bin/vvp"
   }
 }
