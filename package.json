@@ -5,5 +5,28 @@
   "main": "index.js",
   "repository": "https://github.com/electron-lang/electron-vendor",
   "author": "David Craven <david@craven.ch>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "build": "node fetch.js",
+    "clean": "rm -rf downloads prebuilds"
+  },
+  "files": [ "lib", "prebuilds" ],
+  "bin": {
+    "icebram": "./lib/index.js",
+    "icemulti": "./lib/index.js",
+    "icepack": "./lib/index.js",
+    "icepll": "./lib/index.js",
+    "iceprog": "./lib/index.js",
+    "icetime": "./lib/index.js",
+    "iverilog": "./lib/index.js",
+    "iverilog-vpi": "./lib/index.js",
+    "lsftdi": "./lib/index.js",
+    "lsusb": "./lib/index.js",
+    "vvp": "./lib/index.js",
+    "yosys": "./lib/index.js",
+    "yosys-abc": "./lib/index.js"
+  }
 }
