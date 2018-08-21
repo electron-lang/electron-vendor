@@ -1,0 +1,9 @@
+{
+  "name": "electron-vendor",
+  "version": "1.0.0",
+  "description": "Vendored dependencies for electron.",
+  "main": "index.js",
+  "repository": "https://github.com/electron-lang/electron-vendor",
+  "author": "David Craven <david@craven.ch>",
+  "license": "ISC"
+}
